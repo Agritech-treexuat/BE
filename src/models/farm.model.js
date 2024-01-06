@@ -44,6 +44,10 @@ const farmSchema = new Schema(
     address: {
       type: String
     },
+    plant: {
+      type: Array,
+      default: []
+    },
     roles: {
       type: Array,
       default: []
