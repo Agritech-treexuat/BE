@@ -134,7 +134,7 @@ class Clothing extends Product {
       // update child
       await updateProductById({
         productId,
-        bodyUpdate: updateNestedObjectParser(objectParams.product_attributes),
+        bodyUpdate: objectParams,
         model: clothing
       })
     }

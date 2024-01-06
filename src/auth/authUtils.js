@@ -128,17 +128,17 @@ const extractToken = (tokenHeader) => {
 }
 
 const isFarm = asyncHandler(async (req, res, next) => {
-  if(req.user.roles.includes('FARM')) {
-      return next()
+  if (req.user.roles.includes('FARM')) {
+    return next()
   }
- throw new AuthFailureError('Permison denied!')
+  throw new AuthFailureError('Permison denied!')
 })
 
 const isAdmin = asyncHandler(async (req, res, next) => {
-  if(req.user.roles.includes('ADMIN')) {
-      return next()
+  if (req.user.roles.includes('ADMIN')) {
+    return next()
   }
- throw new AuthFailureError('Permison denied!')
+  throw new AuthFailureError('Permison denied!')
 })
 
 module.exports = {
