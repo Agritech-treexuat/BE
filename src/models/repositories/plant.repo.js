@@ -3,7 +3,6 @@
 const { plant } = require('../../models/plant.model')
 const { Types } = require('mongoose')
 const { getSelectData, unGetSelectData } = require('../../utils/index')
-const { NotFoundError, MethodFailureError } = require('../../core/error.response')
 
 const searchPlantByUser = async ({ keySearch }) => {
   const regexSearch = new RegExp(keySearch)
