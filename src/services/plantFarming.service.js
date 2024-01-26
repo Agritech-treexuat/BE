@@ -11,6 +11,7 @@ const {
   getPlantFarmingBySeedId
 } = require('../models/repositories/plantFarming.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
+const { plant } = require('../models/plant.model')
 const { get } = require('lodash')
 const { getPlantByPlantId, getPlantByPlantNameAndFarmId, getAllPlantsByFarm } = require('./plant.service')
 const { isValidObjectId, removeUndefinedObject, updateNestedObjectParser } = require('../utils')
@@ -27,9 +28,9 @@ class PlantFarmingService {
     if (!isValidObjectId(plantId)) throw new BadRequestError('PlantId is not valid')
     if (!seedId) throw new BadRequestError('SeedId is required')
     if (!isValidObjectId(seedId)) throw new BadRequestError('SeedId is not valid')
-    if (plantFarmingData._id) delete plantFarmingData._id
-    if (plantFarmingData.plant) delete plantFarmingData.plant
-    if (plantFarmingData.seed) delete plantFarmingData.seed
+    delete plantFarmingData._id
+    delete plantFarmingData.plant
+    delete plantFarmingData.seed
 
     const plantItem = await getPlantByPlantId({ plantId })
     if (!plantItem) {
