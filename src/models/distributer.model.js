@@ -3,10 +3,10 @@
 const { Schema, model } = require('mongoose')
 const { default: slugify } = require('slugify')
 
-const DOCUMENT_NAME = 'Farm'
-const COLLECTION_NAME = 'Farms'
+const DOCUMENT_NAME = 'Distributer'
+const COLLECTION_NAME = 'Distributers'
 
-const farmSchema = new Schema(
+const distributerSchema = new Schema(
   {
     name: {
       type: String,
@@ -17,10 +17,6 @@ const farmSchema = new Schema(
       type: String,
       unique: true,
       trim: true
-    },
-    password: {
-      type: String,
-      require: true
     },
     status: {
       type: String,
@@ -36,18 +32,8 @@ const farmSchema = new Schema(
     images: {
       type: String
     },
-    cameraId: {
-      type: String
-    },
-    district: {
-      type: String
-    },
     address: {
       type: String
-    },
-    roles: {
-      type: Array,
-      default: []
     }
   },
   {
@@ -57,12 +43,14 @@ const farmSchema = new Schema(
 )
 
 // createindex for search
-farmSchema.index({ name: 'text', description: 'text' })
+distributerSchema.index({ name: 'text', description: 'text' })
 
 // Document middleware: run before .save() and .create()
-farmSchema.pre('save', function (next) {
+distributerSchema.pre('save', function (next) {
   this.name_slug = slugify(this.name, { lower: true })
   next()
 })
 
-module.exports = model(DOCUMENT_NAME, farmSchema)
+module.exports = {
+  distributer: model(DOCUMENT_NAME, distributerSchema)
+}
