@@ -33,3 +33,5 @@ router.patch('/:gardenServiceRequestId', asyncHandler(gardenServiceRequestContro
 router.delete('/:gardenServiceRequestId', asyncHandler(gardenServiceRequestController.deleteGardenServiceRequest))
 router.patch('/:gardenServiceRequestId/accept', asyncHandler(gardenServiceRequestController.acceptGardenServiceRequest))
 router.patch('/:gardenServiceRequestId/reject', asyncHandler(gardenServiceRequestController.rejectGardenServiceRequest))
+
+module.exports = router
