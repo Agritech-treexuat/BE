@@ -26,14 +26,13 @@ const getAllProjectsByFarm = async ({ limit, sort, page, filter } = {}) => {
   return projects
 }
 
-const initProject = async ({ projectData, farmId, plantId, seedId, isGarden, status }) => {
+const initProject = async ({ projectData, farmId, plantId, seedId, status }) => {
   return await project.create({
     ...projectData,
     farm: new Types.ObjectId(farmId),
     plant: new Types.ObjectId(plantId),
     seed: new Types.ObjectId(seedId),
-    status,
-    isGarden
+    status
   })
 }
 

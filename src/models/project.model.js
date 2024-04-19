@@ -182,7 +182,6 @@ const projectSchema = new Schema(
       enum: ['inProgress', 'harvesting', 'almostFinished', 'finished', 'cancel'],
       default: 'inProgress'
     },
-    isGarden: Boolean,
     createdAtTime: Date,
     isInfoEdited: Boolean,
     images: [String],
