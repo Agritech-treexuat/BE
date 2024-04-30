@@ -1,9 +1,8 @@
 'use strict'
 
-const { project } = require('../../models/project.model')
-const { distributer } = require('../../models/distributer.model')
+const { project } = require('../models/project.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
+const { getSelectData } = require('../utils/index')
 
 const getAllProjectsByFarm = async ({ limit, sort, page, filter } = {}) => {
   let query = project

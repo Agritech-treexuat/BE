@@ -1,8 +1,8 @@
 'use strict'
 
-const { plant } = require('../../models/plant.model')
+const { plant } = require('../models/plant.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
+const { unGetSelectData } = require('../utils/index')
 
 const searchPlantByUser = async ({ keySearch }) => {
   const regexSearch = new RegExp(keySearch)

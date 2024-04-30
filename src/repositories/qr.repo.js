@@ -1,6 +1,6 @@
 'use strict'
 
-const { qr } = require('../qr.model')
+const { qr } = require('../models/qr.model')
 const { Types } = require('mongoose')
 const md5 = require('md5')
 

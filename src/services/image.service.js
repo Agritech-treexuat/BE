@@ -3,7 +3,7 @@ const {
   getAllImageByCameraId,
   getImageByCameraIdAndTime,
   getImageByCameraIdAndDate
-} = require('../models/repositories/image.repo')
+} = require('../repositories/image.repo')
 const { BadRequestError, MethodFailureError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 

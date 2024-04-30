@@ -7,7 +7,7 @@ const {
   getPlantByPlantNameAndFarmId,
   updatePlant,
   deletePlant
-} = require('../models/repositories/plant.repo')
+} = require('../repositories/plant.repo')
 const { updateNestedObjectParser, removeUndefinedObject, isValidObjectId } = require('../utils')
 const { BadRequestError, MethodFailureError, NotFoundError } = require('../core/error.response')
 

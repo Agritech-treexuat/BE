@@ -26,7 +26,7 @@ const {
   getDeletedProcess,
   getDeletedExpect,
   getDeletedOutput
-} = require('../models/repositories/project.repo')
+} = require('../repositories/project.repo')
 const {
   addPlantFarming,
   getPlantFarmingByPlantFarmingId,

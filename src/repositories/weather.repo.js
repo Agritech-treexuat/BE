@@ -1,6 +1,6 @@
 'use strict'
 
-const { weather } = require('../weather.model')
+const { weather } = require('../models/weather.model')
 
 const getWeatherDataByTime = async ({ time, district }) => {
   try {

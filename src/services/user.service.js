@@ -1,5 +1,5 @@
 const { Types } = require('mongoose')
-const { findUserByEmail, getUser, addUser, updateUser, getPasswordHash } = require('../models/repositories/user.repo')
+const { findUserByEmail, getUser, addUser, updateUser, getPasswordHash } = require('../repositories/user.repo')
 const { BadRequestError, NotFoundError, MethodFailureError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils/index')
 

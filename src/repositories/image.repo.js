@@ -1,8 +1,7 @@
 'use strict'
 
-const { image } = require('../../models/image.model')
+const { image } = require('../models/image.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllImageByCameraId = async ({ cameraId }) => {
   return await image

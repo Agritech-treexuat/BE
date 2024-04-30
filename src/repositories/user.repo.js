@@ -1,4 +1,4 @@
-const { user } = require('../user.model')
+const { user } = require('../models/user.model')
 const { Types } = require('mongoose')
 
 const findUserByEmail = async ({

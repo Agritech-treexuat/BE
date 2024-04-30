@@ -1,8 +1,7 @@
 'use strict'
 
-const { distributer } = require('../../models/distributer.model')
+const { distributer } = require('../models/distributer.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllDistributers = async ({ limit, sort, page, filter } = {}) => {
   let query = distributer.find(filter || {})

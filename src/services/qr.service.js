@@ -1,11 +1,5 @@
 const { Types } = require('mongoose')
-const {
-  exportQR,
-  scanQR,
-  getQRById,
-  getQRByProject,
-  getQRByPrivateIdAndProjectId
-} = require('../models/repositories/qr.repo')
+const { exportQR, scanQR, getQRById, getQRByProject, getQRByPrivateIdAndProjectId } = require('../repositories/qr.repo')
 const { BadRequestError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 const { getProjectInfo, updateExportQR } = require('./project.service')

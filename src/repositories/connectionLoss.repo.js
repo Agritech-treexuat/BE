@@ -1,8 +1,7 @@
 'use strict'
 
-const { connectionLoss } = require('../../models/connectionLoss.model')
+const { connectionLoss } = require('../models/connectionLoss.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllConnectionLossByCameraId = async ({ cameraId }) => {
   return await connectionLoss

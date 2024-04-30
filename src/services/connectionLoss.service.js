@@ -3,7 +3,7 @@ const {
   getAllConnectionLossByCameraId,
   getConnectionLossByCameraIdAndTime,
   getConnectionLossByCameraIdAndDate
-} = require('../models/repositories/connectionLoss.repo')
+} = require('../repositories/connectionLoss.repo')
 const { BadRequestError, MethodFailureError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 
