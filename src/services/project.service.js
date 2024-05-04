@@ -26,7 +26,7 @@ const {
   getDeletedProcess,
   getDeletedExpect,
   getDeletedOutput
-} = require('../models/repositories/project.repo')
+} = require('../repositories/project.repo')
 const {
   addPlantFarming,
   getPlantFarmingByPlantFarmingId,
@@ -41,12 +41,12 @@ class ProjectService {
   static async getAllProjectsByFarm({ farmId, limit, sort, page }) {
     if (!farmId) throw new BadRequestError('Missing farm id')
     if (!isValidObjectId(farmId)) throw new BadRequestError('Invalid farm id')
-    const filter = { farm: new Types.ObjectId(farmId), isGarden: false }
+    const filter = { farm: new Types.ObjectId(farmId) }
     const projects = await getAllProjectsByFarm({ limit, sort, page, filter })
     return projects
   }
 
-  static async initProject({ farmId, project, isGarden, status, startDate }) {
+  static async initProject({ farmId, project, status, startDate }) {
     if (!farmId) throw new BadRequestError('Missing farm id')
     if (!isValidObjectId(farmId)) throw new BadRequestError('Invalid farm id')
     if (!project) throw new BadRequestError('Missing project')
@@ -65,7 +65,6 @@ class ProjectService {
         createdAtTime: new Date(),
         startDate
       },
-      isGarden,
       status
     })
     if (!updatedProject) throw new MethodFailureError('Cannot init project')
@@ -85,7 +84,6 @@ class ProjectService {
         'square',
         'status',
         'description',
-        'isGarden',
         'projectIndex',
         'txHash',
         'createdAtTime',

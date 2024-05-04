@@ -1,8 +1,7 @@
 'use strict'
 
-const { event } = require('../../models/event.model')
+const { event } = require('../models/event.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllEvents = async ({ limit, sort, page, filter } = {}) => {
   let query = event.find(filter || {})

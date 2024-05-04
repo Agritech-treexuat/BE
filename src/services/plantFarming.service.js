@@ -9,9 +9,8 @@ const {
   getPlantFarmingByPlantFarmingId,
   getPlantFarmingByPlantIdAndSeedId,
   getPlantFarmingBySeedId
-} = require('../models/repositories/plantFarming.repo')
+} = require('../repositories/plantFarming.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
-const { get } = require('lodash')
 const { getPlantByPlantId, getPlantByPlantNameAndFarmId, getAllPlantsByFarm } = require('./plant.service')
 const { isValidObjectId, removeUndefinedObject, updateNestedObjectParser } = require('../utils')
 const {
@@ -20,7 +19,6 @@ const {
   checkSeedValidFromSeedNameAndPlant,
   getSeedBySeedId
 } = require('./seed.service')
-const { plantFarming } = require('../models/plantFarming.model')
 class PlantFarmingService {
   static async addPlantFarming({ plantFarmingData, farmId, plantId, seedId }) {
     if (!farmId) throw new BadRequestError('FarmId is required')

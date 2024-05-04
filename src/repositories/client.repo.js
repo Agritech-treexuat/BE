@@ -1,6 +1,6 @@
 'use strict'
 
-const { client } = require('../client.model')
+const { client } = require('../models/client.model')
 const { Types } = require('mongoose')
 
 const getClientById = async ({ clientId }) => {

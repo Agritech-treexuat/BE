@@ -1,11 +1,5 @@
 const { Types } = require('mongoose')
-const {
-  getAllCameras,
-  getCameraById,
-  addCamera,
-  updateCamera,
-  deleteCamera
-} = require('../models/repositories/camera.repo')
+const { getAllCameras, getCameraById, addCamera, updateCamera, deleteCamera } = require('../repositories/camera.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 const { update } = require('lodash')

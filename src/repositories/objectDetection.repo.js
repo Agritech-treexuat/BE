@@ -1,8 +1,7 @@
 'use strict'
 
-const { objectDetection } = require('../../models/objectDetection.model')
+const { objectDetection } = require('../models/objectDetection.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllObjectDetectionByCameraId = async ({ cameraId }) => {
   return await objectDetection

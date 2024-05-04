@@ -1,6 +1,6 @@
 const { Types } = require('mongoose')
-const { plantFarming } = require('../../models/plantFarming.model')
-const { unGetSelectData } = require('../../utils')
+const { plantFarming } = require('../models/plantFarming.model')
+const { unGetSelectData } = require('../utils')
 
 // Add a new plant farming
 const addPlantFarming = async ({ plantFarmingData, plantId, seedId }) => {

@@ -1,6 +1,6 @@
 'use strict'
 const { Types } = require('mongoose')
-const { findFarmByEmail, getFarm, updateFarm, getAllFarms } = require('../models/repositories/farm.repo')
+const { findFarmByEmail, getFarm, updateFarm, getAllFarms } = require('../repositories/farm.repo')
 const { BadRequestError, MethodFailureError } = require('../core/error.response')
 const { removeUndefinedObject, isValidObjectId } = require('../utils')
 const { findUserByEmail, getUser } = require('./user.service')

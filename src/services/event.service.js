@@ -1,5 +1,5 @@
 const { Types } = require('mongoose')
-const { getAllEvents, getEventById } = require('../models/repositories/event.repo')
+const { getAllEvents, getEventById } = require('../repositories/event.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 const FarmService = require('./farm.service')

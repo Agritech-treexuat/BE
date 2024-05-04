@@ -1,8 +1,7 @@
 'use strict'
 
-const { camera } = require('../../models/camera.model')
+const { camera } = require('../models/camera.model')
 const { Types } = require('mongoose')
-const { getSelectData, unGetSelectData } = require('../../utils/index')
 
 const getAllCameras = async ({ limit, sort, page, filter } = {}) => {
   let query = camera.find(filter || {})
