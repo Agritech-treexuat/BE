@@ -5,7 +5,7 @@ const {
   addTransfer,
   updateTransfer,
   deleteTransfer
-} = require('../models/repositories/transfer.repo')
+} = require('../repositories/transfer.repo')
 const { BadRequestError, MethodFailureError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 

@@ -3,7 +3,7 @@ const {
   getAllObjectDetectionByCameraId,
   getObjectDetectionByCameraIdAndTime,
   getObjectDetecionByCameraIdAndDate
-} = require('../models/repositories/objectDetection.repo')
+} = require('../repositories/objectDetection.repo')
 const { BadRequestError, MethodFailureError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const { transfer } = require('../transfer.model')
+const { transfer } = require('../models/transfer.model')
 const { Types } = require('mongoose')
 
 const getTransferById = async ({ transferId }) => {

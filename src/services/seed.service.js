@@ -9,7 +9,7 @@ const {
   getSeedByPlantInFarm,
   getSeedDefaultFromPlantId,
   getSeedFromSeedNameAndPlantId
-} = require('../models/repositories/seed.repo')
+} = require('../repositories/seed.repo')
 const { BadRequestError, NotFoundError, MethodFailureError } = require('../core/error.response')
 const { updateNestedObjectParser, removeUndefinedObject, isValidObjectId } = require('../utils')
 const { default: slugify } = require('slugify')

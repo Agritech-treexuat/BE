@@ -11,7 +11,6 @@ class ProjectController {
       metadata: await ProjectService.initProject({
         project: req.body,
         farmId: req.user.userId,
-        isGarden: false,
         status: 'inProgress',
         startDate: new Date()
       })

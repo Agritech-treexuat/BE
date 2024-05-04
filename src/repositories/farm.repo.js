@@ -1,4 +1,4 @@
-const { farm } = require('../../models/farm.model')
+const { farm } = require('../models/farm.model')
 const { Types } = require('mongoose')
 
 const getFarm = async ({ farmId }) => {

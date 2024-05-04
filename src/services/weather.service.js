@@ -1,5 +1,4 @@
-const { Types } = require('mongoose')
-const { getWeatherDataByTime } = require('../models/repositories/weather.repo')
+const { getWeatherDataByTime } = require('../repositories/weather.repo')
 const { BadRequestError, NotFoundError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils/index')
 const { getFarm } = require('./farm.service')

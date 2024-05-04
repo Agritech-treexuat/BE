@@ -5,9 +5,6 @@ const { seed } = require('./src/models/seed.model') // Update with your path to 
 const { plant } = require('./src/models/plant.model') // Update with your path to the plant model
 const { plantFarming } = require('./src/models/plantFarming.model') // Update with your path to the plantFarming model
 const { project } = require('./src/models/project.model')
-const { gardenServiceRequest } = require('./src/models/gardenServiceRequest.model')
-const { gardenServiceTemplate } = require('./src/models/gardenServiceTemplate.model')
-const { garden } = require('./src/models/garden.model')
 const { qr } = require('./src/models/qr.model')
 require('./src/dbs/init.mongodb')
 
@@ -16,9 +13,6 @@ async function deleteAllDocuments() {
   await plant.deleteMany({})
   await plantFarming.deleteMany({})
   await project.deleteMany({})
-  await gardenServiceRequest.deleteMany({})
-  await gardenServiceTemplate.deleteMany({})
-  await garden.deleteMany({})
   await qr.deleteMany({})
   console.log('All documents deleted')
 }

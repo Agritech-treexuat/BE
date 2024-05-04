@@ -5,7 +5,7 @@ const {
   addDistributer,
   updateDistributer,
   deleteDistributer
-} = require('../models/repositories/distributer.repo')
+} = require('../repositories/distributer.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 

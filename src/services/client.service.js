@@ -1,5 +1,5 @@
 const { Types } = require('mongoose')
-const { getClientById, getAllClients, updateClient, deleteClient } = require('../models/repositories/client.repo')
+const { getClientById, getAllClients, updateClient, deleteClient } = require('../repositories/client.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 

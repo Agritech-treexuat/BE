@@ -9,7 +9,10 @@ const imageSchema = new Schema(
   {
     camera_id: { type: Schema.Types.ObjectId, ref: 'Camera' },
     capture_time: Date,
-    image_url: String
+    image_url: String,
+    tx_hash: String,
+    image_hash: String,
+    timeDescription: String
   },
   {
     collection: COLLECTION_NAME,
