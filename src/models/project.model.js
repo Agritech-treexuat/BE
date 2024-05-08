@@ -159,6 +159,8 @@ const historyInfo = new Schema({
   startDate: Date,
   description: String,
   square: Number,
+  expectedEndDate: Date,
+  expectedOutput: Number,
   modifiedAt: Date
 })
 
@@ -169,6 +171,8 @@ const projectSchema = new Schema(
     seed: { type: Schema.Types.ObjectId, ref: 'Seed' },
     startDate: Date,
     square: Number,
+    expectedEndDate: Date,
+    expectedOutput: Number,
     txHash: String,
     projectIndex: Number,
     plantFarming: { type: Schema.Types.ObjectId, ref: 'PlantFarming' },

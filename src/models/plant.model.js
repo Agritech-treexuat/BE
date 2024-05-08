@@ -6,11 +6,6 @@ const slugify = require('slugify')
 const DOCUMENT_NAME = 'Plant'
 const COLLECTION_NAME = 'Plants'
 
-const timeCultivate = new Schema({
-  start: Number,
-  end: Number
-})
-
 const plantSchema = new Schema(
   {
     farm: { type: Schema.Types.ObjectId, ref: 'Farm' },
@@ -23,13 +18,6 @@ const plantSchema = new Schema(
       require: true,
       enum: ['herb', 'leafy', 'root', 'fruit']
     },
-    timeCultivates: [timeCultivate],
-    bestTimeCultivate: {
-      start: Number,
-      end: Number
-    },
-    farmingTime: Number,
-    harvestTime: Number,
     isActive: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
     deletedAt: Date

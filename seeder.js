@@ -25,10 +25,6 @@ async function seedData(farmId) {
       plant_thumb: faker.image.url(),
       plant_description: faker.lorem.sentence(),
       plant_type: ['herb', 'leafy', 'root', 'fruit'].at(faker.number.int() % 4),
-      timeCultivates: [{ start: (faker.number.int() % 12) + 1, end: (faker.number.int() % 12) + 1 }],
-      bestTimeCultivate: { start: (faker.number.int() % 12) + 1, end: (faker.number.int() % 12) + 1 },
-      farmingTime: (faker.number.int() % 200) + 1,
-      harvestTime: (faker.number.int() % 100) + 1,
       farm: new mongoose.Types.ObjectId(farmId)
 
       // Add more fields as needed
@@ -79,10 +75,6 @@ async function seedData(farmId) {
             }
           ],
 
-          timeCultivates: [{ start: (faker.number.int() % 12) + 1, end: (faker.number.int() % 12) + 1 }],
-          bestTimeCultivate: { start: (faker.number.int() % 12) + 1, end: (faker.number.int() % 12) + 1 },
-          farmingTime: (faker.number.int() % 200) + 1,
-          harvestTime: (faker.number.int() % 100) + 1,
           isPlantFarmingDefault: true
           // Add more fields as needed
         })
