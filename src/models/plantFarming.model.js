@@ -5,11 +5,6 @@ const { Schema, model } = require('mongoose')
 const DOCUMENT_NAME = 'PlantFarming'
 const COLLECTION_NAME = 'PlantFarmings'
 
-const timeCultivate = new Schema({
-  start: Number,
-  end: Number
-})
-
 const cultivationActivity = new Schema({
   name: String,
   description: String
@@ -38,7 +33,6 @@ const pestAndDiseaseControlActivity = new Schema({
 })
 
 const historyPlantFarmingEdit = new Schema({
-  timeCultivates: [timeCultivate],
   cultivationActivities: [cultivationActivity],
   plantingActivity: {
     density: String,
@@ -46,12 +40,6 @@ const historyPlantFarmingEdit = new Schema({
   },
   fertilizationActivities: [fertilizationActivity],
   pestAndDiseaseControlActivities: [pestAndDiseaseControlActivity],
-  bestTimeCultivate: {
-    start: Number,
-    end: Number
-  },
-  farmingTime: Number,
-  harvestTime: Number,
   isPlantFarmingDefault: { type: Boolean, default: false },
   modifiedAt: Date,
   createdAtTime: Date
@@ -61,7 +49,6 @@ const plantFarmingSchema = new Schema(
   {
     plant: { type: Schema.Types.ObjectId, ref: 'Plant' },
     seed: { type: Schema.Types.ObjectId, ref: 'Seed' },
-    timeCultivates: [timeCultivate],
     cultivationActivities: [cultivationActivity],
     plantingActivity: {
       density: String,
@@ -69,12 +56,6 @@ const plantFarmingSchema = new Schema(
     },
     fertilizationActivities: [fertilizationActivity],
     pestAndDiseaseControlActivities: [pestAndDiseaseControlActivity],
-    bestTimeCultivate: {
-      start: Number,
-      end: Number
-    },
-    farmingTime: Number,
-    harvestTime: Number,
     isPlantFarmingDefault: { type: Boolean, default: false },
     isDeleted: {
       type: Boolean,

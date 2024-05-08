@@ -156,14 +156,10 @@ class PlantFarmingService {
     let historyPlantFarmingEdit = null
     if (!plantFarmingItem.isPlantFarmingDefault) {
       historyPlantFarmingEdit = {
-        timeCultivates: plantFarmingItem.timeCultivates,
         cultivationActivities: plantFarmingItem.cultivationActivities,
         plantingActivity: plantFarmingItem.plantingActivity,
         fertilizationActivities: plantFarmingItem.fertilizationActivities,
         pestAndDiseaseControlActivities: plantFarmingItem.pestAndDiseaseControlActivities,
-        bestTimeCultivate: plantFarmingItem.bestTimeCultivate,
-        farmingTime: plantFarmingItem.farmingTime,
-        harvestTime: plantFarmingItem.harvestTime,
         isPlantFarmingDefault: plantFarmingItem.isPlantFarmingDefault,
         modifiedAt: new Date(),
         createdAtTime: plantFarmingItem.createdAtTime || plantFarmingItem.createdAt
