@@ -82,6 +82,8 @@ class ProjectService {
         'farm',
         'startDate',
         'square',
+        'expectedEndDate',
+        'expectedOutput',
         'status',
         'description',
         'projectIndex',
@@ -104,7 +106,7 @@ class ProjectService {
     if (!isValidObjectId(projectId)) throw new BadRequestError('Invalid project id')
     if (!updatedFields) throw new BadRequestError('Missing updated fields')
 
-    const { seed, startDate, square, status, description, txHash } = updatedFields
+    const { seed, startDate, square, status, description, txHash, expectedOutput, expectedEndDate } = updatedFields
     if (seed && !isValidObjectId(seed)) throw new BadRequestError('Invalid seed id')
     const projectUpdate = removeUndefinedObject({
       seed,
@@ -113,7 +115,9 @@ class ProjectService {
       status,
       description,
       createdAtTime: new Date(),
-      txHash
+      txHash,
+      expectedOutput,
+      expectedEndDate
     })
     const projectInfo = await getProjectInfo({ projectId })
     const historyInfoItem = {
@@ -123,7 +127,9 @@ class ProjectService {
       startDate: projectInfo.startDate,
       description: projectInfo.description,
       modifiedAt: new Date(),
-      square: projectInfo.square
+      square: projectInfo.square,
+      expectedEndDate: projectInfo.expectedEndDate,
+      expectedOutput: projectInfo.expectedOutput
     }
     const updatedProject = await updateProjectInfo({
       projectId,
