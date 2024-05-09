@@ -6,6 +6,7 @@ const { authenticationV2, isAdmin } = require('../../auth/authUtils')
 
 const router = express.Router()
 
+router.get('/distributors/:farmId', asyncHandler(farmController.getDistributorsByFarmId))
 router.get('/:farmId', asyncHandler(farmController.getFarm))
 router.get('/', asyncHandler(farmController.getAllFarms))
 // Authentication

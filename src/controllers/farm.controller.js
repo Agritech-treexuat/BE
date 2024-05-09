@@ -27,6 +27,13 @@ class FarmController {
     }).send(res)
   }
 
+  getDistributorsByFarmId = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get Distributors by FarmId success!',
+      metadata: await FarmService.getDistributorsByFarmId({ farmId: req.params.farmId })
+    }).send(res)
+  }
+
   updateStatusFarm = async (req, res, next) => {
     new SuccessResponse({
       message: 'Update status Farm success!',
