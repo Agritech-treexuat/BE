@@ -1,8 +1,15 @@
 const { Types } = require('mongoose')
-const { exportQR, scanQR, getQRById, getQRByProject, getQRByPrivateIdAndProjectId } = require('../repositories/qr.repo')
+const {
+  exportQR,
+  scanQR,
+  getQRById,
+  getQRByProject,
+  getQRByPrivateIdAndProjectId,
+  getAllQRsByFarmId
+} = require('../repositories/qr.repo')
 const { BadRequestError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
-const { getProjectInfo, updateExportQR } = require('./project.service')
+const { getProjectInfo, updateExportQR, getAllProjectsByFarm } = require('./project.service')
 const { getClientById } = require('./client.service')
 const { ethers } = require('ethers')
 
@@ -308,87 +315,29 @@ class QRService {
     return qrItems
   }
 
-  // static async scanQR({ qrId, clientId }) {
-  //   if (!qrId) {
-  //     throw new BadRequestError('QR id is required')
-  //   }
-  //   if (!isValidObjectId(qrId)) {
-  //     throw new BadRequestError('Invalid QR id')
-  //   }
-  //   if (!clientId) {
-  //     throw new BadRequestError('Client id is required')
-  //   }
-  //   if (!isValidObjectId(clientId)) {
-  //     throw new BadRequestError('Invalid client id')
-  //   }
+  static async getQRStatsByFarmId({ farmId }) {
+    try {
+      const projects = await getAllProjectsByFarm({ farmId })
+      if (!projects || projects.length === 0) {
+        return { totalQRCount: 0, scannedQRCount: 0 }
+      }
+      const allQRs = await getAllQRsByFarmId({ projects }) // Get all QRs by farmId
 
-  //   const clientItem = await getClientById({ clientId })
-  //   if (!clientItem) {
-  //     throw new BadRequestError('Client not found')
-  //   }
+      if (!allQRs || allQRs.length === 0) {
+        return { totalQRCount: 0, scannedQRCount: 0 }
+      }
 
-  //   // check if qr exists
-  //   const qrItem = await getQRById(qrId)
-  //   if (!qrItem) {
-  //     throw new BadRequestError('QR not found')
-  //   }
+      // Count the total number of QRs
+      const totalQRCount = allQRs.length
 
-  //   const purchaseInfo = `${
-  //     clientItem.name
-  //   } with id ${clientItem._id.toString()} bought this product from distributer: ${qrItem.distributer.name}, farm: ${
-  //     qrItem.project.farm.name
-  //   } at ${new Date()}`
+      // Count the number of scanned QRs
+      const scannedQRCount = allQRs.filter((qr) => qr.isScanned).length
 
-  //   console.log("wallet private key", process.env.WALLET_PRIVATE_KEY)
-  //   console.log("thirdweb secret key", process.env.THIRDWEB_SECRET_KEY)
-  //   console.log("thirdweb sdk: ", ThirdwebSDK)
-  //   const sdk = ThirdwebSDK.fromPrivateKey(process.env.WALLET_PRIVATE_KEY, 'evmos', {
-  //     secretKey: process.env.THIRDWEB_SECRET_KEY
-  //   })
-
-  //   // Connect to your smart contract using the contract address
-  //   const contract = await sdk.getContract(process.env.QR_CONTRACT_ADDRESS)
-
-  //   // check if qr is already scanned
-  //   if (qrItem.isScanned) {
-  //     throw new BadRequestError('QR is already scanned')
-  //   }
-
-  //   // check if qr is already scanned in blockchain (function checkProductStatus in contract)
-  //   const checkProductStatus = await contract.call('checkProductStatus', [qrItem.project._id.toString(), qrItem.privateId])
-  //   if (checkProductStatus) {
-  //     throw new BadRequestError('QR is already scanned in blockchain')
-  //   }
-
-  //   console.log("checkProductStatus", checkProductStatus)
-
-  //   const result = await contract.call('purchaseProduct', [
-  //     qrItem.project._id.toString(),
-  //     qrItem.privateId,
-  //     purchaseInfo
-  //   ], {
-  //     gasLimit: 10000000
-  //   })
-
-  //   console.log('Transaction result:', result)
-  //   // Wait for the transaction to be mined
-  //   const receipt = await sdk.waitForTransaction(result.hash)
-  //   console.log('Transaction receipt:', receipt)
-
-  //   const txScan = receipt.transactionHash
-
-  //   // update output
-  //   const scanQRItem = await scanQR({ qrId, txScan, clientId })
-  //   if (!scanQRItem) {
-  //     throw new BadRequestError('Scan QR failed')
-  //   }
-
-  //   return {
-  //     txScan,
-  //     client: clientItem,
-  //     qrItem
-  //   }
-  // }
+      return { totalQRCount, scannedQRCount }
+    } catch (error) {
+      throw new Error('Error getting QR stats by farmId: ' + error.message)
+    }
+  }
 }
 
 module.exports = QRService

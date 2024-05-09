@@ -15,6 +15,7 @@ const {
   updateExpect,
   deleteExpect,
   getOutput,
+  getAllProjectOutputByFarmId,
   addOutput,
   updateOutput,
   deleteOutput,
@@ -324,6 +325,14 @@ class ProjectService {
     if (!isValidObjectId(projectId)) throw new BadRequestError('Invalid project id')
     const outputs = await getOutput({ projectId })
     return outputs
+  }
+
+  static async getAllProjectOutputByFarmId({ farmId }) {
+    if (!farmId) throw new BadRequestError('Missing farm id')
+    if (!isValidObjectId(farmId)) throw new BadRequestError('Invalid farm id')
+
+    const projects = await getAllProjectOutputByFarmId({ farmId })
+    return projects
   }
 
   // ...

@@ -8,6 +8,7 @@ const { authenticationV2 } = require('../../auth/authUtils')
 const router = express.Router()
 
 router.get('/project/:projectId', asyncHandler(qrController.getQRByProject))
+router.get('/stats/:farmId', asyncHandler(qrController.getQRStatsByFarmId))
 
 // Authentication
 router.use(authenticationV2)
