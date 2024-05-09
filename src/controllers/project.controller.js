@@ -253,6 +253,7 @@ class ProjectController {
       metadata: await ProjectService.getDeletedItemInProject({ projectId: req.params.projectId })
     }).send(res)
   }
+
   // END QUERY //
 }
 

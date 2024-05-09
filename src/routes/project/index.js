@@ -13,6 +13,7 @@ router.get(
   '/:projectId/processesWithObjectDetections',
   asyncHandler(projectController.getProcessesWithObjectDetections)
 )
+
 router.get('/:projectId/process', asyncHandler(projectController.getAllProcess))
 router.get('/:projectId/expect', asyncHandler(projectController.getExpect))
 router.get('/:projectId/output', asyncHandler(projectController.getOutput))

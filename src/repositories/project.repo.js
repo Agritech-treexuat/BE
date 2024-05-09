@@ -237,6 +237,11 @@ const getOutput = async ({ projectId }) => {
   return filteredOutput
 }
 
+const getAllProjectOutputByFarmId = async ({ farmId }) => {
+  const projects = await project.find({ farm: farmId }).populate('output.distributerWithAmount.distributer')
+  return projects
+}
+
 const addOutput = async ({ projectId, output }) => {
   const result = await project.updateOne({ _id: new Types.ObjectId(projectId) }, { $push: { output: output } }).exec()
 
@@ -394,6 +399,7 @@ module.exports = {
   updateExpect,
   deleteExpect,
   getOutput,
+  getAllProjectOutputByFarmId,
   addOutput,
   updateOutput,
   deleteOutput,

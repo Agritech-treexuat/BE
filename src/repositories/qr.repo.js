@@ -64,10 +64,22 @@ const getQRByPrivateIdAndProjectId = async ({ privateId, projectId }) => {
     .exec()
 }
 
+const getAllQRsByFarmId = async ({ projects }) => {
+  try {
+    // Find all QRs associated with the projects
+    const qrs = await qr.find({ project: { $in: projects.map((p) => p._id) } })
+
+    return qrs
+  } catch (error) {
+    throw new Error('Error getting QRs by farmId: ' + error.message)
+  }
+}
+
 module.exports = {
   exportQR,
   scanQR,
   getQRById,
   getQRByProject,
-  getQRByPrivateIdAndProjectId
+  getQRByPrivateIdAndProjectId,
+  getAllQRsByFarmId
 }

@@ -38,6 +38,16 @@ class QRController {
       })
     }).send(res)
   }
+
+  // get stats of qr by farmId
+  getQRStatsByFarmId = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get QR stats by farm id success!',
+      metadata: await QRService.getQRStatsByFarmId({
+        farmId: req.params.farmId
+      })
+    }).send(res)
+  }
 }
 
 module.exports = new QRController()
