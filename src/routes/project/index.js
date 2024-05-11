@@ -21,6 +21,8 @@ router.get('/:projectId/certificateImages', asyncHandler(projectController.getCe
 router.get('/:projectId/camera', asyncHandler(projectController.getCameraInProject))
 router.get('/:projectIndex/cameraIndex', asyncHandler(projectController.getCameraIndexAndStartDateAndEndDate))
 router.get('/:projectId/deletedItem', asyncHandler(projectController.getDeletedItemInProject))
+router.get('/:projectId/connectionLoss', asyncHandler(projectController.getConnectionLossbyProject))
+router.get('/:projectId/image', asyncHandler(projectController.getImageByProject))
 router.get('/:projectId', asyncHandler(projectController.getProjectInfo))
 
 // Authentication

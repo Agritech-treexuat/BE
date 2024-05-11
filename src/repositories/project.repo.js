@@ -232,6 +232,7 @@ const getOutput = async ({ projectId }) => {
     .lean()
     .exec()
 
+  if (!output) return []
   const filteredOutput = output.output.filter((output) => !output.isDeleted)
 
   return filteredOutput
