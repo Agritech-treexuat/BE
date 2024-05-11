@@ -254,6 +254,20 @@ class ProjectController {
     }).send(res)
   }
 
+  getConnectionLossbyProject = async (req, res, next) => {
+    return new SuccessResponse({
+      message: 'Get ConnectionLossbyProject success!',
+      metadata: await ProjectService.getConnectionLossbyProject({ projectId: req.params.projectId })
+    }).send(res)
+  }
+
+  getImageByProject = async (req, res, next) => {
+    return new SuccessResponse({
+      message: 'Get ImageByProject success!',
+      metadata: await ProjectService.getImageByProject({ projectId: req.params.projectId })
+    }).send(res)
+  }
+
   // END QUERY //
 }
 
