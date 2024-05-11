@@ -37,6 +37,8 @@ const {
 const { updateNestedObjectParser, removeUndefinedObject, isValidObjectId } = require('../utils')
 const { BadRequestError, MethodFailureError, NotFoundError } = require('../core/error.response')
 const { getObjectDetectionByCameraIdAndTime } = require('./objectDetection.service')
+const { getConnectionLossByCameraIdAndTime } = require('./connectionLoss.service')
+const { getImageByCameraIdAndTime } = require('./image.service')
 
 class ProjectService {
   static async getAllProjectsByFarm({ farmId, limit, sort, page }) {
@@ -467,7 +469,7 @@ class ProjectService {
     const projectItem = await getProjectInfo({ projectId })
     const outputs = await getOutput({ projectId })
     let endTime = new Date()
-    if (outputs.length > 0) {
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
       // get the time of output has the time field is latest
       endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
     }
@@ -523,6 +525,64 @@ class ProjectService {
     return { processes, nonProcessObjectDetection }
   }
 
+  static async getConnectionLossbyProject({ projectId }) {
+    console.log('projectId', projectId)
+    if (!projectId) throw new BadRequestError('Missing project id')
+    if (!isValidObjectId(projectId)) throw new BadRequestError('Invalid project id')
+
+    const projectItem = await getProjectInfo({ projectId })
+    console.log('projectItem', projectItem)
+    if (!projectItem) throw new NotFoundError('Project not found')
+    const outputs = await getOutput({ projectId })
+    let endTime = new Date()
+
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
+      // get the time of output has the time field is latest
+      endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
+    }
+
+    const startTime = projectItem.startDate
+    const cameraIds = projectItem.cameraId
+    let connectionLosses = []
+    for (const cameraId of cameraIds) {
+      const connectionLoss = await getConnectionLossByCameraIdAndTime({
+        cameraId: cameraId._id.toString(),
+        startTime,
+        endTime
+      })
+      if (connectionLoss) connectionLosses.push(...connectionLoss)
+    }
+
+    return connectionLosses
+  }
+
+  static async getImageByProject({ projectId }) {
+    if (!projectId) throw new BadRequestError('Missing project id')
+    if (!isValidObjectId(projectId)) throw new BadRequestError('Invalid project id')
+
+    const projectItem = await getProjectInfo({ projectId })
+    const outputs = await getOutput({ projectId })
+    let endTime = new Date()
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
+      // get the time of output has the time field is latest
+      endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
+    }
+
+    const startTime = projectItem.startDate
+    const cameraIds = projectItem.cameraId
+    let imageList = []
+    for (const cameraId of cameraIds) {
+      const image = await getImageByCameraIdAndTime({
+        cameraId: cameraId._id.toString(),
+        startTime,
+        endTime
+      })
+      if (image) imageList.push(...image)
+    }
+
+    return imageList
+  }
+
   static async updateCameraToProject({ projectId, cameraId }) {
     if (!projectId) throw new BadRequestError('Missing project id')
     if (!cameraId) throw new BadRequestError('Missing camera id')
@@ -556,7 +616,7 @@ class ProjectService {
     if (!projectItem) throw new NotFoundError('Project not found')
     const outputs = await getOutput({ projectId: projectItem._id.toString() })
     let endTime = new Date()
-    if (outputs.length > 0) {
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
       // get the time of output has the time field is latest
       endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
     }
