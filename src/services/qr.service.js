@@ -294,7 +294,7 @@ class QRService {
     const txScan = transaction.hash
 
     // update output
-    const scanQRItem = await scanQR({ qrId, txScan, clientId })
+    const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId })
     if (!scanQRItem) {
       throw new BadRequestError('Scan QR failed')
     }
