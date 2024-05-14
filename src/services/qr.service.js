@@ -301,6 +301,7 @@ class QRService {
 
     return {
       txScan,
+      timeScanned: scanQRItem.timeScanned,
       client: clientItem,
       qrItem
     }
