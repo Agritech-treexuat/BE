@@ -9,6 +9,7 @@ const router = express.Router()
 
 router.get('/project/:projectId', asyncHandler(qrController.getQRByProject))
 router.get('/stats/:farmId', asyncHandler(qrController.getQRStatsByFarmId))
+router.post('/scan-incognito', asyncHandler(qrController.scanQR))
 
 // Authentication
 router.use(authenticationV2)
