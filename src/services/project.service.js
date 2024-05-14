@@ -97,7 +97,8 @@ class ProjectService {
         'historyInfo',
         'isInfoEdited',
         'createdAt',
-        'updatedAt'
+        'updatedAt',
+        'video_urls',
       ]
     })
     if (!project) throw new NotFoundError('Project not found')

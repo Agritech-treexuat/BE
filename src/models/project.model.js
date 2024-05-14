@@ -189,6 +189,7 @@ const projectSchema = new Schema(
     createdAtTime: Date,
     isInfoEdited: Boolean,
     images: [String],
+    video_urls: [String],
     historyInfo: [historyInfo]
   },
   {
