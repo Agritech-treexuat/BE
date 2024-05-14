@@ -1,6 +1,7 @@
 'use strict'
 const QRService = require('../services/qr.service')
 const { SuccessResponse } = require('../core/success.response')
+const { incognito_client_id } = require('../constant')
 
 class QRController {
   // export QR
@@ -24,7 +25,7 @@ class QRController {
       metadata: await QRService.scanQR({
         privateId: req.body.privateId,
         projectId: req.body.projectId,
-        clientId: req.user.userId
+        clientId: req.user?.userId || incognito_client_id
       })
     }).send(res)
   }
