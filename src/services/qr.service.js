@@ -12,147 +12,7 @@ const { isValidObjectId } = require('../utils')
 const { getProjectInfo, updateExportQR, getAllProjectsByFarm } = require('./project.service')
 const { getClientById } = require('./client.service')
 const { ethers } = require('ethers')
-
-const abi = [
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      },
-      {
-        indexed: false,
-        internalType: 'string',
-        name: 'privateId',
-        type: 'string'
-      },
-      {
-        indexed: false,
-        internalType: 'string',
-        name: 'purchaseInfo',
-        type: 'string'
-      }
-    ],
-    name: 'ProductPurchased',
-    type: 'event'
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      },
-      {
-        indexed: false,
-        internalType: 'string',
-        name: 'generateQRInfo',
-        type: 'string'
-      }
-    ],
-    name: 'QRGenerated',
-    type: 'event'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      },
-      {
-        internalType: 'string',
-        name: 'privateId',
-        type: 'string'
-      }
-    ],
-    name: 'checkProductStatus',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      },
-      {
-        internalType: 'uint256',
-        name: 'numberOfQR',
-        type: 'uint256'
-      },
-      {
-        internalType: 'string[]',
-        name: 'privateIds',
-        type: 'string[]'
-      },
-      {
-        internalType: 'string',
-        name: 'generateQRInfo',
-        type: 'string'
-      }
-    ],
-    name: 'generateQR',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string'
-      }
-    ],
-    name: 'projects',
-    outputs: [
-      {
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'projectId',
-        type: 'string'
-      },
-      {
-        internalType: 'string',
-        name: 'privateId',
-        type: 'string'
-      },
-      {
-        internalType: 'string',
-        name: 'purchaseInfo',
-        type: 'string'
-      }
-    ],
-    name: 'purchaseProduct',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  }
-]
+const { qr_abi } = require('../constant')
 
 class QRService {
   static async exportQR({ farmId, projectId, outputId, outputData, txExport }) {
@@ -193,35 +53,22 @@ class QRService {
       throw new BadRequestError('Farm does not have permission to export QR')
     }
 
-    const { amount, amountPerOne, distributerWithAmount } = outputData
-    if (!amountPerOne) {
-      throw new BadRequestError('Amount per one is required')
-    }
+    const { distributerWithAmount } = outputData
 
-    // map in distributerWithAmount and validate distributerId and amount, then quantity = amount / amountPerOne, then call exportQR
-    let quantity = 0
     await Promise.all(
       distributerWithAmount.map(async (item) => {
         if (!isValidObjectId(item.distributer)) {
           throw new BadRequestError('Invalid distributer id')
         }
-        if (!item.amount) {
-          throw new BadRequestError('Amount is required')
-        }
-        // quantity = amount / amountPerOne (base)
-        quantity = item.numberOfQR
+
         let privateIdsEachDistributer = item.privateIdsEachDistributer
-        if (!privateIdsEachDistributer) {
+        if (!privateIdsEachDistributer || privateIdsEachDistributer.length === 0) {
           throw new BadRequestError('Private ids are required')
-        }
-        if (privateIdsEachDistributer.length !== quantity) {
-          throw new BadRequestError('Private ids length must be equal to quantity')
         }
         await exportQR({
           projectId,
           outputId,
           distributerId: item.distributer,
-          quantity,
           txExport,
           privateIdsEachDistributer
         })
@@ -264,9 +111,7 @@ class QRService {
       }
     }
 
-    const purchaseInfo = `${clientItem.name} with id ${clientItem._id.toString()} scan this product from distributer: ${
-      qrItem.distributer.name
-    }, farm: ${qrItem.project.farm.name} at ${new Date()}`
+    const purchaseInfo = `${clientItem.name} with id ${clientItem._id.toString()} scan this product, farm: ${qrItem.project.farm.name} at ${new Date()}`
 
     // Khởi tạo provider của Ethereum (ví dụ: Infura)
     const provider = new ethers.providers.JsonRpcProvider('https://evmos-pokt.nodies.app')
@@ -275,7 +120,7 @@ class QRService {
     const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY, provider)
 
     // Kết nối với smart contract thông qua contract address
-    const contract = new ethers.Contract(process.env.QR_CONTRACT_ADDRESS, abi, wallet)
+    const contract = new ethers.Contract(process.env.QR_CONTRACT_ADDRESS, qr_abi, wallet)
 
     // Kiểm tra xem QR đã được quét trên blockchain chưa
     const checkProductStatus = await contract.checkProductStatus(qrItem.project._id.toString(), qrItem.privateId)

@@ -4,10 +4,9 @@ const { qr } = require('../models/qr.model')
 const { Types } = require('mongoose')
 const md5 = require('md5')
 
-const exportQR = async ({ projectId, outputId, distributerId, quantity, txExport, privateIdsEachDistributer }) => {
-  // insert quantity qr document
+const exportQR = async ({ projectId, outputId, distributerId, txExport, privateIdsEachDistributer }) => {
   const qrData = []
-  for (let i = 0; i < quantity; i++) {
+  for (let i = 0; i < privateIdsEachDistributer.length ; i++) {
     qrData.push({
       time: new Date(),
       isScanned: false,
