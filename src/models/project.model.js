@@ -119,14 +119,14 @@ const expect = new Schema({
 
 const distributerWithAmount = new Schema({
   distributer: { type: Schema.Types.ObjectId, ref: 'Distributer' },
-  amount: Number
+  quantity: Number
 })
 
 const historyOutput = new Schema({
   tx: String,
   time: Date,
   amount: Number,
-  amountPerOne: Number,
+  quantity: Number,
   images: [String],
   distributerWithAmount: [distributerWithAmount],
   exportQR: Boolean,
@@ -138,7 +138,7 @@ const output = new Schema({
   tx: String,
   time: Date,
   amount: Number,
-  amountPerOne: Number,
+  quantity: Number,
   images: [String],
   distributerWithAmount: [distributerWithAmount],
   exportQR: Boolean,
