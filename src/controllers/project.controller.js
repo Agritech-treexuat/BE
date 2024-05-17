@@ -268,6 +268,13 @@ class ProjectController {
     }).send(res)
   }
 
+  getWeatherByProject = async (req, res, next) => {
+    return new SuccessResponse({
+      message: 'Get WeatherByProject success!',
+      metadata: await ProjectService.getWeatherByProject({ projectId: req.params.projectId })
+    }).send(res)
+  }
+
   // END QUERY //
 }
 
