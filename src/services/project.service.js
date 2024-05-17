@@ -39,6 +39,7 @@ const { BadRequestError, MethodFailureError, NotFoundError } = require('../core/
 const { getObjectDetectionByCameraIdAndTime } = require('./objectDetection.service')
 const { getConnectionLossByCameraIdAndTime } = require('./connectionLoss.service')
 const { getImageByCameraIdAndTime } = require('./image.service')
+const { getWeatherDataByTimeRange } = require('./weather.service')
 
 class ProjectService {
   static async getAllProjectsByFarm({ farmId, limit, sort, page }) {
@@ -98,7 +99,7 @@ class ProjectService {
         'isInfoEdited',
         'createdAt',
         'updatedAt',
-        'video_urls',
+        'video_urls'
       ]
     })
     if (!project) throw new NotFoundError('Project not found')
@@ -582,6 +583,26 @@ class ProjectService {
     }
 
     return imageList
+  }
+
+  static async getWeatherByProject({ projectId }) {
+    if (!projectId) throw new BadRequestError('Missing project id')
+    if (!isValidObjectId(projectId)) throw new BadRequestError('Invalid project id')
+
+    const projectItem = await getProjectInfo({ projectId })
+    const outputs = await getOutput({ projectId })
+    let endTime = new Date()
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
+      // get the time of output has the time field is latest
+      endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
+    }
+
+    const farmId = projectItem.farm._id.toString()
+    const startTime = projectItem.startDate
+
+    const weatherData = await getWeatherDataByTimeRange({ startTime, endTime, farmId })
+
+    return weatherData
   }
 
   static async updateCameraToProject({ projectId, cameraId }) {

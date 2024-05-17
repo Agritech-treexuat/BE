@@ -29,6 +29,24 @@ const getWeatherDataByTime = async ({ time, district }) => {
   }
 }
 
+const getWeatherDataByTimeRange = async ({ startTime, endTime, district }) => {
+  try {
+    // Find weather data within the same hour
+    const weatherData = await weather.find({
+      time: {
+        $gte: startTime,
+        $lt: endTime
+      },
+      district: district
+    })
+    return weatherData
+  } catch (error) {
+    console.error('Error fetching weather data by time:', error)
+    throw error
+  }
+}
+
 module.exports = {
-  getWeatherDataByTime
+  getWeatherDataByTime,
+  getWeatherDataByTimeRange
 }
