@@ -514,7 +514,6 @@ class ProjectService {
           }
           process.objectDetections.push(detection)
           isAdded = true
-          break
         }
       }
       if (!isAdded) {
