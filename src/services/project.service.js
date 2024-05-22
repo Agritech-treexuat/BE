@@ -40,6 +40,7 @@ const { getObjectDetectionByCameraIdAndTime } = require('./objectDetection.servi
 const { getConnectionLossByCameraIdAndTime } = require('./connectionLoss.service')
 const { getImageByCameraIdAndTime } = require('./image.service')
 const { getWeatherDataByTimeRange } = require('./weather.service')
+const { isNull } = require('lodash')
 
 class ProjectService {
   static async getAllProjectsByFarm({ farmId, limit, sort, page }) {
@@ -85,6 +86,7 @@ class ProjectService {
         'seed',
         'farm',
         'startDate',
+        'endDate',
         'square',
         'expectedEndDate',
         'expectedOutput',
@@ -113,9 +115,14 @@ class ProjectService {
 
     const { seed, startDate, square, status, description, txHash, expectedOutput, expectedEndDate } = updatedFields
     if (seed && !isValidObjectId(seed)) throw new BadRequestError('Invalid seed id')
+    let endDate = null
+    if(status === 'cancel' || status === 'finished') {
+      endDate = new Date()
+    }
     const projectUpdate = removeUndefinedObject({
       seed,
       startDate,
+      endDate,
       square,
       status,
       description,
@@ -130,6 +137,7 @@ class ProjectService {
       createdAtTime: projectInfo.createdAtTime ? projectInfo.createdAtTime : projectInfo.createdAt,
       seed: projectInfo.seed,
       startDate: projectInfo.startDate,
+      endDate: projectInfo.endDate,
       description: projectInfo.description,
       modifiedAt: new Date(),
       square: projectInfo.square,
@@ -542,6 +550,10 @@ class ProjectService {
       endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
     }
 
+    if (projectItem.endDate) {
+      endTime = projectItem.endDate
+    }
+
     const startTime = projectItem.startDate
     const cameraIds = projectItem.cameraId
     let connectionLosses = []
@@ -569,6 +581,10 @@ class ProjectService {
       endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
     }
 
+    if (projectItem.endDate) {
+      endTime = projectItem.endDate
+    }
+
     const startTime = projectItem.startDate
     const cameraIds = projectItem.cameraId
     let imageList = []
@@ -594,6 +610,10 @@ class ProjectService {
     if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
       // get the time of output has the time field is latest
       endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
+    }
+
+    if (projectItem.endDate) {
+      endTime = projectItem.endDate
     }
 
     const farmId = projectItem.farm._id.toString()
