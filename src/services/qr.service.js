@@ -111,7 +111,9 @@ class QRService {
       }
     }
 
-    const purchaseInfo = `${clientItem.name} with id ${clientItem._id.toString()} scan this product, farm: ${qrItem.project.farm.name} at ${new Date()}`
+    const purchaseInfo = `${clientItem.name} with id ${clientItem._id.toString()} scan this product, farm: ${
+      qrItem.project.farm.name
+    } at ${new Date()}`
 
     // Khởi tạo provider của Ethereum (ví dụ: Infura)
     const provider = new ethers.providers.JsonRpcProvider('https://evmos-pokt.nodies.app')
