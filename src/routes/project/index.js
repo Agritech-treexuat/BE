@@ -24,6 +24,7 @@ router.get('/:projectId/deletedItem', asyncHandler(projectController.getDeletedI
 router.get('/:projectId/connectionLoss', asyncHandler(projectController.getConnectionLossbyProject))
 router.get('/:projectId/image', asyncHandler(projectController.getImageByProject))
 router.get('/:projectId/weather', asyncHandler(projectController.getWeatherByProject))
+router.get('/:projectIndex/allInfoByProjectIndex', asyncHandler(projectController.getAllInfoByProjectIndex))
 router.get('/:projectId', asyncHandler(projectController.getProjectInfo))
 
 // Authentication

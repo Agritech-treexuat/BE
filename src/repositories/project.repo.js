@@ -243,6 +243,11 @@ const getAllProjectOutputByFarmId = async ({ farmId }) => {
   return projects
 }
 
+const getAllInfoByProjectIndex = async ({ projectIndex }) => {
+  const projectInfo = await project.findOne({ projectIndex }).lean().exec()
+  return projectInfo
+}
+
 const addOutput = async ({ projectId, output }) => {
   const result = await project.updateOne({ _id: new Types.ObjectId(projectId) }, { $push: { output: output } }).exec()
 
@@ -411,5 +416,6 @@ module.exports = {
   getProjectByProjectIndex,
   getDeletedProcess,
   getDeletedExpect,
-  getDeletedOutput
+  getDeletedOutput,
+  getAllInfoByProjectIndex
 }

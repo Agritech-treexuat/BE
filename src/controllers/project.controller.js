@@ -275,6 +275,13 @@ class ProjectController {
     }).send(res)
   }
 
+  getAllInfoByProjectIndex = async (req, res, next) => {
+    return new SuccessResponse({
+      message: 'Get AllInfoByProjectIndex success!',
+      metadata: await ProjectService.getAllInfoByProjectIndex({ projectIndex: req.params.projectIndex })
+    }).send(res)
+  }
+
   // END QUERY //
 }
 

@@ -6,7 +6,7 @@ const md5 = require('md5')
 
 const exportQR = async ({ projectId, outputId, distributerId, txExport, privateIdsEachDistributer }) => {
   const qrData = []
-  for (let i = 0; i < privateIdsEachDistributer.length ; i++) {
+  for (let i = 0; i < privateIdsEachDistributer.length; i++) {
     qrData.push({
       time: new Date(),
       isScanned: false,

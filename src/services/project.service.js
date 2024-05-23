@@ -26,7 +26,8 @@ const {
   getProjectByProjectIndex,
   getDeletedProcess,
   getDeletedExpect,
-  getDeletedOutput
+  getDeletedOutput,
+  getAllInfoByProjectIndex
 } = require('../repositories/project.repo')
 const {
   addPlantFarming,
@@ -116,7 +117,7 @@ class ProjectService {
     const { seed, startDate, square, status, description, txHash, expectedOutput, expectedEndDate } = updatedFields
     if (seed && !isValidObjectId(seed)) throw new BadRequestError('Invalid seed id')
     let endDate = null
-    if(status === 'cancel' || status === 'finished') {
+    if (status === 'cancel' || status === 'finished') {
       endDate = new Date()
     }
     const projectUpdate = removeUndefinedObject({
@@ -681,6 +682,66 @@ class ProjectService {
     const deletedOutput = await getDeletedOutput({ projectId })
 
     return { deletedProcess, deletedExpect, deletedOutput }
+  }
+
+  static async getAllInfoByProjectIndex({ projectIndex }) {
+    if (!projectIndex) throw new BadRequestError('Missing project index')
+    const projectIndexNumber = parseInt(projectIndex)
+
+    const projectItem = await getAllInfoByProjectIndex({ projectIndex: projectIndexNumber })
+    if (!projectItem) throw new NotFoundError('Project not found')
+    const projectId = projectItem._id.toString()
+    const outputs = await getOutput({ projectId })
+    const cameraIds = projectItem.cameraId
+
+    let endTime = new Date()
+    if (outputs.length > 0 && projectItem.status === 'finished' && projectItem.status == 'cancel') {
+      // get the time of output has the time field is latest
+      endTime = outputs.reduce((acc, cur) => (acc.time > cur.time ? acc : cur)).time
+    }
+
+    if (projectItem.endDate) {
+      endTime = projectItem.endDate
+    }
+
+    const startTime = projectItem.startDate
+
+    let imageList = []
+    for (const cameraId of cameraIds) {
+      const image = await getImageByCameraIdAndTime({
+        cameraId: cameraId._id.toString(),
+        startTime,
+        endTime
+      })
+      if (image) imageList.push(...image)
+    }
+
+    let connectionLosses = []
+    for (const cameraId of cameraIds) {
+      const connectionLoss = await getConnectionLossByCameraIdAndTime({
+        cameraId: cameraId._id.toString(),
+        startTime,
+        endTime
+      })
+      if (connectionLoss) connectionLosses.push(...connectionLoss)
+    }
+
+    let objectDetections = []
+    for (const cameraId of cameraIds) {
+      const objectDetection = await getObjectDetectionByCameraIdAndTime({
+        cameraId: cameraId._id.toString(),
+        startTime,
+        endTime
+      })
+      if (objectDetection) objectDetections.push(...objectDetection)
+    }
+
+    return {
+      projectItem,
+      imageList,
+      connectionLosses,
+      objectDetections
+    }
   }
 }
 
