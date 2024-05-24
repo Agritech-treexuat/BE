@@ -111,9 +111,11 @@ class QRService {
       }
     }
 
+    const timeScanned = new Date()
+
     const purchaseInfo = `${clientItem.name} with id ${clientItem._id.toString()} scan this product, farm: ${
       qrItem.project.farm.name
-    } at ${new Date()}`
+    } at ${timeScanned}`
 
     // Khởi tạo provider của Ethereum (ví dụ: Infura)
     const provider = new ethers.providers.JsonRpcProvider('https://evmos-pokt.nodies.app')
@@ -128,7 +130,7 @@ class QRService {
     const checkProductStatus = await contract.checkProductStatus(qrItem.project._id.toString(), qrItem.privateId)
     if (checkProductStatus) {
       return {
-        message: 'QR is already scanned in blockchain',
+        message: 'QR is already scanned',
         scannedQR: qrItem
       }
     }
@@ -141,7 +143,7 @@ class QRService {
     const txScan = transaction.hash
 
     // update output
-    const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId })
+    const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId, purchaseInfo })
     if (!scanQRItem) {
       throw new BadRequestError('Scan QR failed')
     }
@@ -158,7 +160,8 @@ class QRService {
       txScan,
       timeScanned: scanQRItem.timeScanned,
       client: clientItem,
-      qrItem
+      qrItem,
+      purchaseInfo
     }
   }
 
