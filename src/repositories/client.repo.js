@@ -4,11 +4,17 @@ const { client } = require('../models/client.model')
 const { Types } = require('mongoose')
 
 const getClientById = async ({ clientId }) => {
-  return await client.findOne({ _id: new Types.ObjectId(clientId) }).exec()
+  return await client.findOne({ _id: new Types.ObjectId(clientId) })
+  .populate('history.qr')
+  .populate('history.qr.project')
+  .populate('history.qr.distributer')
+  .exec()
 }
 
 const getAllClients = async () => {
-  return await client.find({ $or: [{ isDeleted: { $exists: false } }, { isDeleted: false }] }).exec()
+  return await client.find({ $or: [{ isDeleted: { $exists: false } }, { isDeleted: false }] })
+  .populate('history.qr')
+  .exec()
 }
 
 const updateClient = async ({ clientId, data }) => {

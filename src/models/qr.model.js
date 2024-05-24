@@ -16,7 +16,8 @@ const qrSchema = new Schema(
     project: { type: Schema.Types.ObjectId, ref: 'Project' },
     output: { type: Schema.Types.ObjectId, ref: 'Project.output' },
     distributer: { type: Schema.Types.ObjectId, ref: 'Distributer' },
-    client: { type: Schema.Types.ObjectId, ref: 'Client' }
+    client: { type: Schema.Types.ObjectId, ref: 'Client' },
+    purchaseInfo: String
   },
   {
     collection: COLLECTION_NAME,

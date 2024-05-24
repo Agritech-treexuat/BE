@@ -142,15 +142,17 @@ class QRService {
     await transaction.wait()
     const txScan = transaction.hash
 
+    
+
     // update output
-    const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId, purchaseInfo })
+    const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId, purchaseInfo, timeScanned })
     if (!scanQRItem) {
       throw new BadRequestError('Scan QR failed')
     }
 
     clientItem.history.push({
       qr: qrItem._id,
-      time: scanQRItem.timeScanned,
+      time: timeScanned,
       purchaseInfo
     })
 
@@ -158,7 +160,7 @@ class QRService {
 
     return {
       txScan,
-      timeScanned: scanQRItem.timeScanned,
+      timeScanned: timeScanned,
       client: clientItem,
       qrItem,
       purchaseInfo

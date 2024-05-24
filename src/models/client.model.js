@@ -7,7 +7,8 @@ const COLLECTION_NAME = 'Clients'
 
 const scanHistory = new Schema({
   qr: { type: Schema.Types.ObjectId, ref: 'QR' },
-  time: Date
+  time: Date,
+  purchaseInfo: String
 })
 
 const clientSchema = new Schema(
