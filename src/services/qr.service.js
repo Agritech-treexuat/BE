@@ -146,6 +146,14 @@ class QRService {
       throw new BadRequestError('Scan QR failed')
     }
 
+    clientItem.history.push({
+      qr: qrItem._id,
+      time: scanQRItem.timeScanned,
+      purchaseInfo
+    })
+
+    await clientItem.save()
+
     return {
       txScan,
       timeScanned: scanQRItem.timeScanned,
