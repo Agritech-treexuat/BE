@@ -34,10 +34,16 @@ const getQRById = async (qrId) => {
     .exec()
 }
 
-const scanQR = async ({ qrId, txScan, clientId }) => {
+const scanQR = async ({ qrId, txScan, clientId, purchaseInfo, timeScanned }) => {
   return await qr.findOneAndUpdate(
     { _id: new Types.ObjectId(qrId) },
-    { isScanned: true, timeScanned: new Date(), txScan, client: new Types.ObjectId(clientId) }
+    {
+      isScanned: true,
+      timeScanned: timeScanned,
+      txScan,
+      client: new Types.ObjectId(clientId),
+      purchaseInfo: purchaseInfo
+    }
   )
 }
 
