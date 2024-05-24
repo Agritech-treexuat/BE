@@ -36,6 +36,22 @@ class EventService {
 
     return foundEvent
   }
+
+  static async getEventsByFarmId({ farmId }) {
+    if (!farmId) throw new BadRequestError('Farm id is required')
+    if (!isValidObjectId(farmId)) {
+      throw new BadRequestError('Invalid farm id')
+    }
+
+    const farm = await FarmService.getFarm({ farmId })
+    const filter = { walletAddress: farm.walletAddress }
+    const events = await getAllEvents({ filter })
+    if (!events || events.length === 0) {
+      return []
+    }
+
+    return events
+  }
 }
 
 module.exports = EventService

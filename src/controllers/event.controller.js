@@ -20,6 +20,15 @@ class EventController {
       })
     }).send(res)
   }
+
+  getEventsByFarmId = async (req, res, next) => {
+    new SuccessResponse({
+      message: 'Get events by farm id success!',
+      metadata: await EventService.getEventsByFarmId({
+        farmId: req.params.farmId
+      })
+    }).send(res)
+  }
 }
 
 module.exports = new EventController()
