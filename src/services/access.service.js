@@ -226,7 +226,8 @@ class AccessService {
     })
     if (!updatedUser) throw new MethodFailureError('Update user failed')
 
-    await sendEmail({ email, resetToken })
+    const userType = foundUser.roles.includes(Role.FARM) ? 'farm' : 'client'
+    await sendEmail({ email, resetToken, userType })
     return {
       message: 'Send verify email success'
     }
