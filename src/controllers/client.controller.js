@@ -23,7 +23,7 @@ class ClientController {
     new SuccessResponse({
       message: 'Update client success!',
       metadata: await ClientService.updateClient({
-        clientId: req.user.usesrId,
+        clientId: req.user.userId,
         data: req.body
       })
     }).send(res)
