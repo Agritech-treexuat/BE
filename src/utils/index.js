@@ -82,13 +82,13 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async ({ email, resetToken, userType }) => {
   // Create the email content based on user type
-  let htmlContent;
+  let htmlContent
   if (userType === 'farm') {
-    htmlContent = `<p>Click vào link sau: <a href="https://agritech-fe-urw9.onrender.com/reset-password/${resetToken}/${email}">Click here</a></p>`;
+    htmlContent = `<p>Click vào link sau: <a href="https://agritech-fe-urw9.onrender.com/reset-password/${resetToken}/${email}">Click here</a></p>`
   } else if (userType === 'client') {
-    htmlContent = `<p>Nếu là người tiêu dùng thì copy đoạn token sau: <strong>${resetToken}</strong></p>`;
+    htmlContent = `<p>Nếu là người tiêu dùng thì copy đoạn token sau: <strong>${resetToken}</strong></p>`
   } else {
-    throw new Error('Invalid user type');
+    throw new Error('Invalid user type')
   }
 
   // Send mail with defined transport object
@@ -98,11 +98,11 @@ const sendEmail = async ({ email, resetToken, userType }) => {
     subject: 'Password Reset', // Subject line
     text: 'Please see the HTML content of this email.', // plain text body
     html: htmlContent // html body
-  });
+  })
 
   // console.log('Message sent: %s', info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-};
+}
 
 module.exports = {
   getInfoData,

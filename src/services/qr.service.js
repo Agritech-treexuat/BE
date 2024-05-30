@@ -142,8 +142,6 @@ class QRService {
     await transaction.wait()
     const txScan = transaction.hash
 
-    
-
     // update output
     const scanQRItem = await scanQR({ qrId: qrItem._id.toString(), txScan, clientId, purchaseInfo, timeScanned })
     if (!scanQRItem) {
