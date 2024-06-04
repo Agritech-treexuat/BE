@@ -4,6 +4,7 @@ const _ = require('lodash')
 const { BadRequestError } = require('../core/error.response')
 const { Types } = require('mongoose')
 const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields)
@@ -54,8 +55,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'alex01021999sandra@gmail.com',
-    pass: 'fvsecuaajhmickyi'
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD
   }
 })
 
