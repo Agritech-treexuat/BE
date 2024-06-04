@@ -1,6 +1,7 @@
 const { Types } = require('mongoose')
 const { getClientById, getAllClients, updateClient, deleteClient } = require('../repositories/client.repo')
 const { MethodFailureError, BadRequestError, NotFoundError } = require('../core/error.response')
+const { getUser } = require('./user.service')
 const { isValidObjectId } = require('../utils')
 
 class ClientService {
@@ -15,7 +16,17 @@ class ClientService {
       throw new NotFoundError('Client not found')
     }
 
-    return foundClient
+    const user = await getUser({ userId: foundClient._id.toString() })
+    if (!user) {
+      throw new NotFoundError('Client user not found')
+    }
+
+    const client = {
+      ...foundClient._doc,
+      email: user.email
+    }
+
+    return client
   }
 
   static async getAllClients() {
