@@ -10,7 +10,7 @@ const {
 const { BadRequestError } = require('../core/error.response')
 const { isValidObjectId } = require('../utils')
 const { getProjectInfo, updateExportQR, getAllProjectsByFarm } = require('./project.service')
-const { getClientById } = require('./client.service')
+const { getOnlyClientById } = require('./client.service')
 const { ethers } = require('ethers')
 const { qr_abi } = require('../constant')
 
@@ -91,7 +91,7 @@ class QRService {
       throw new BadRequestError('Invalid client id')
     }
 
-    const clientItem = await getClientById({ clientId })
+    const clientItem = await getOnlyClientById({ clientId })
     if (!clientItem) {
       throw new BadRequestError('Client not found')
     }
