@@ -29,6 +29,20 @@ class ClientService {
     return client
   }
 
+  static async getOnlyClientById({ clientId }) {
+    if (!clientId) throw new BadRequestError('Client id is required')
+    if (!isValidObjectId(clientId)) {
+      throw new BadRequestError('Invalid client id')
+    }
+
+    const foundClient = await getClientById({ clientId })
+    if (!foundClient) {
+      throw new NotFoundError('Client not found')
+    }
+
+    return foundClient
+  }
+
   static async getAllClients() {
     return await getAllClients()
   }
