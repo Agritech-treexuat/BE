@@ -48,7 +48,8 @@ class CameraController {
     new SuccessResponse({
       message: 'Delete camera success!',
       metadata: await CameraService.deleteCamera({
-        cameraId: req.params.cameraId
+        cameraId: req.params.cameraId,
+        farmId: req.user.userId
       })
     }).send(res)
   }
